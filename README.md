@@ -1,3 +1,3 @@
 # mstsc
-android 远程控制SDKDemo
+android 远程控制SDKDemo 正在构建...
 ![](https://github.com/AtensorFlow/mstsc/blob/master/ishow/mstsc.png)
