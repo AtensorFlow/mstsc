@@ -26,8 +26,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.startidean8c_plus.MstscClient;
-import com.startidean8c_plus.inf.RtmpListener;
+import com.mstsc.MstscClient;
+import com.mstsc.inf.RtmpListener;
+import com.mstsc.utils.constant.Constants;
 
 
 import net.yrom.screenrecorder.core.RESCoreParameters;
@@ -57,8 +58,8 @@ public class ScreenRecordActivity extends Activity implements View.OnClickListen
 
     private boolean isRecording;
     private RESCoreParameters coreParameters;
-    private String rtmpAddr = "rtmp://www.cloudn8c.cn:1935/keep/";
-    private String machineName = "DEMO8";
+    private String rtmpAddr = Constants.RTMP_PORT;
+    private String deviceId = "DEMO8";
 
 
     private Button  startControl;
@@ -71,15 +72,23 @@ public class ScreenRecordActivity extends Activity implements View.OnClickListen
 
         setContentView(R.layout.activity_remote_control);
 
+        initSDK(deviceId);
+        initView();
+        initFunction();
+    }
+
+    private void initSDK(String deviceId)
+    {
         mMediaProjectionManager = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
         createScreenCapture();
 
         //load socket control
         MstscClient mstscClient = new MstscClient();
-        mstscClient.init(machineName,this);
-        initView();
-        initFunction();
+        mstscClient.init(deviceId,this);
+
     }
+
+
 
     private void initView()
     {
@@ -105,7 +114,7 @@ public class ScreenRecordActivity extends Activity implements View.OnClickListen
             Log.e("@@", "media projection is null");
             return;
         }
-        rtmpAddr = rtmpAddr+machineName;
+        rtmpAddr = rtmpAddr+deviceId;
         if (TextUtils.isEmpty(rtmpAddr)) {
             Toast.makeText(this, "rtmp address cannot be null", Toast.LENGTH_SHORT).show();
             return;
